@@ -1,10 +1,11 @@
 // import styled from "styled-components";
 
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FiTrash } from "react-icons/fi";
 
 
-import { getCabins } from "../../services/apiCabins";
+import toast from "react-hot-toast";
+import { deleteCabin, getCabins } from "../../services/apiCabins";
 import Spinner from "../../ui/Spinner";
 import { formatCurrency } from "../../utils/helpers";
 
@@ -33,6 +34,17 @@ import { formatCurrency } from "../../utils/helpers";
 // `;
 
 export default function CabinTable() {
+  const queryClient = useQueryClient();
+  const {isLoading:deleteLoading,mutate} = useMutation({
+    mutationFn: (id) => deleteCabin(id),
+    onSuccess: () => {
+      toast.success("Cabin deleted successfully");
+      queryClient.invalidateQueries("cabins");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
   const {
     data: cabins,
     isLoading,
@@ -47,7 +59,8 @@ export default function CabinTable() {
   if (error) {
     return <div>error</div>;
   }
-  console.log(cabins);
+  
+  
   return (
     <div className="">
       <div className="grid grid-cols-6 gap-2">
@@ -67,9 +80,9 @@ export default function CabinTable() {
          <div>{formatCurrency(cabin.regularPrice)}</div>
          <div>{formatCurrency(cabin.discount)}</div>
          <div>
-          <span>
+          <button disabled={deleteLoading} onClick={()=>mutate(cabin.id)} className="btn btn-sm btn-square">
             <FiTrash/>
-          </span>
+          </button>
          </div>
          </>
          
