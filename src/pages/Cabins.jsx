@@ -1,12 +1,23 @@
-import Heading from "../ui/Heading";
-import Row from "../ui/Row";
+import CabinTable from "../features/cabins/CabinTable";
+import CreateCabinForm from "../features/cabins/CreateCabinForm";
 
 function Cabins() {
+  
   return (
-    <Row type="horizontal">
-      <Heading as="h1">All cabins</Heading>
-      <p>TEST</p>
-    </Row>
+    
+    <div>
+      <div className="flex justify-between w-full items-start mb-3">
+      <h1 className="text-xl font-semibold">Cabins</h1>
+
+      <div className="flex items-center">
+      <p>Filter</p>
+      <p>Sort</p>
+      <CreateCabinForm/>
+
+      </div>
+      </div>
+      <CabinTable />
+    </div>
   );
 }
 
