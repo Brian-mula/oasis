@@ -1,12 +1,17 @@
-import Heading from "../ui/Heading";
-import Row from "../ui/Row";
+import CabinTable from "../features/cabins/CabinTable";
 
 function Cabins() {
+  
   return (
-    <Row type="horizontal">
-      <Heading as="h1">All cabins</Heading>
-      <p>TEST</p>
-    </Row>
+    
+    <div>
+      <div className="flex justify-between w-full items-start">
+      <h1 className="text-xl font-semibold">Cabins</h1>
+
+      <p>Filter</p>
+      </div>
+      <CabinTable />
+    </div>
   );
 }
 
