@@ -1,88 +1,91 @@
-import styled from "styled-components";
+import { useRef } from "react";
+import { useForm } from "react-hook-form";
+import { FiPlus } from "react-icons/fi";
 
-import Input from "../../ui/Input";
-import Form from "../../ui/Form";
-import Button from "../../ui/Button";
-import FileInput from "../../ui/FileInput";
-import Textarea from "../../ui/Textarea";
-
-const FormRow = styled.div`
-  display: grid;
-  align-items: center;
-  grid-template-columns: 24rem 1fr 1.2fr;
-  gap: 2.4rem;
-
-  padding: 1.2rem 0;
-
-  &:first-child {
-    padding-top: 0;
-  }
-
-  &:last-child {
-    padding-bottom: 0;
-  }
-
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-
-  &:has(button) {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1.2rem;
-  }
-`;
-
-const Label = styled.label`
-  font-weight: 500;
-`;
-
-const Error = styled.span`
-  font-size: 1.4rem;
-  color: var(--color-red-700);
-`;
 
 function CreateCabinForm() {
+  const {register,handleSubmit} = useForm();
+  const createCabinModal = useRef(null);
+
+  const openModal = () => {
+    createCabinModal.current.showModal();
+  }
+  const closeModal = () => {
+    createCabinModal.current.close();
+  }
+  const onSubmitCabin = (data) => {
+    console.log(data);
+  }
   return (
-    <Form>
-      <FormRow>
-        <Label htmlFor="name">Cabin name</Label>
-        <Input type="text" id="name" />
-      </FormRow>
-
-      <FormRow>
-        <Label htmlFor="maxCapacity">Maximum capacity</Label>
-        <Input type="number" id="maxCapacity" />
-      </FormRow>
-
-      <FormRow>
-        <Label htmlFor="regularPrice">Regular price</Label>
-        <Input type="number" id="regularPrice" />
-      </FormRow>
-
-      <FormRow>
-        <Label htmlFor="discount">Discount</Label>
-        <Input type="number" id="discount" defaultValue={0} />
-      </FormRow>
-
-      <FormRow>
-        <Label htmlFor="description">Description for website</Label>
-        <Textarea type="number" id="description" defaultValue="" />
-      </FormRow>
-
-      <FormRow>
-        <Label htmlFor="image">Cabin photo</Label>
-        <FileInput id="image" accept="image/*" />
-      </FormRow>
-
-      <FormRow>
-        {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
-          Cancel
-        </Button>
-        <Button>Edit cabin</Button>
-      </FormRow>
-    </Form>
+    <div>
+      {/* Open the modal using document.getElementById('ID').showModal() method */}
+<button className="btn btn-success btn-sm flex mx-2" onClick={openModal}>
+  <FiPlus className="mr-1"/>
+  <span>Create Cabin</span>
+</button>
+<dialog ref={createCabinModal} className="modal">
+  <div className="modal-box">
+  <form onSubmit={handleSubmit(onSubmitCabin)} className="w-full max-w-lg">
+  <div className="flex flex-wrap -mx-3 mb-3">
+    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
+        Cabin Name
+      </label>
+      <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" {...register('name')} type="text" />
+      
+    </div>
+    <div className="w-full md:w-1/2 px-3">
+      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
+        Maximum Capacity
+      </label>
+      <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" {...register('maxCapacity')} type="number"/>
+    </div>
+  </div>
+  <div className="flex flex-wrap -mx-3 mb-3">
+    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
+        Regular Price
+      </label>
+      <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" {...register('regularPrice')} type="number" />
+      
+    </div>
+    <div className="w-full md:w-1/2 px-3">
+      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
+        Discount
+      </label>
+      <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" {...register('discount')} type="number"/>
+    </div>
+  </div>
+  <div className="flex flex-wrap -mx-3 mb-3">
+    <div className="w-full px-3">
+      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
+        Cabin Description
+      </label>
+      <textarea className="resize rounded-md bg-gray-200 text-gray-700 py-3 px-4 w-full" {...register('description')} ></textarea>
+      
+    </div>
+  </div>
+  <div className="flex flex-wrap -mx-3 mb-3">
+    <div className="w-full px-3">
+      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
+        Cabin Photo
+      </label>
+      <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="file"/>
+      
+    </div>
+  </div>
+    <div className="flex justify-between items-center">
+      <button className="btn btn-primary" type="submit">
+        Create Cabin
+      </button>
+      <button className="btn btn-secondary" type="reset" onClick={closeModal}>
+        Cancel
+      </button>
+    </div>
+</form>
+  </div>
+</dialog>
+    </div>
   );
 }
 
