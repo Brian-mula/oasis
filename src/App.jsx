@@ -4,6 +4,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 
+import { Toaster } from "react-hot-toast";
 import Account from "./pages/Account";
 import Bookings from "./pages/Bookings";
 import Cabins from "./pages/Cabins";
@@ -18,7 +19,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
-      staleTime:60 * 1000,
+      staleTime:0,
     },
   },
 });
@@ -43,6 +44,20 @@ export default function App() {
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
+
+    <Toaster 
+    position="top-center"
+    gutter={12}
+    containerClassName="m-8"
+    toastOptions={{
+      duration: 5000,
+      style: {
+        background: "#363636",
+        color: "#fff",
+      },
+    }}
+    />
+
     </QueryClientProvider>
   );
 }
