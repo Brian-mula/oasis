@@ -1,13 +1,12 @@
 // import styled from "styled-components";
 
-import { useQuery } from "@tanstack/react-query";
 import { FiEye, FiTrash } from "react-icons/fi";
 
 
 import { Link } from "react-router-dom";
-import { getCabins } from "../../services/apiCabins";
 import Spinner from "../../ui/Spinner";
 import { formatCurrency } from "../../utils/helpers";
+import { useCabins } from "./useCabin";
 import { useDeleteSelectedCabin } from "./useDeleteCabin";
 
 //const SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp4ZGNwZm9jdm91bmp1cHR4ZXFkIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTc3ODcwNzIsImV4cCI6MjAxMzM2MzA3Mn0.nraYMfkXnWBgf9r9mkrUos3ZSe_vCkp9hdrM-_1IwCQ"
@@ -16,23 +15,17 @@ export default function CabinTable() {
  
   const {isDeleting,deleteCabin}= useDeleteSelectedCabin();
   const {
-    data: cabins,
+    cabins,
     isLoading,
     error,
-  } = useQuery({
-    queryKey: ["cabins"],
-    queryFn: getCabins,
-  });
+  } = useCabins();
   if (isLoading) {
     return <Spinner />;
   }
   if (error) {
     return <div>error</div>;
   }
-  //console.log(cabins);
-  // const handleCabinDetails = ()=>{
-
-  // }
+  
   
   return (
     <div className="">
