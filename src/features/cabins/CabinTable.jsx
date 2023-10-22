@@ -1,43 +1,31 @@
 // import styled from "styled-components";
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { FiTrash } from "react-icons/fi";
+import { FiEye, FiTrash } from "react-icons/fi";
 
 
-import toast from "react-hot-toast";
-import { deleteCabin, getCabins } from "../../services/apiCabins";
+import { Link } from "react-router-dom";
 import Spinner from "../../ui/Spinner";
 import { formatCurrency } from "../../utils/helpers";
+import { useCabins } from "./useCabin";
+import { useDeleteSelectedCabin } from "./useDeleteCabin";
 
 //const SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp4ZGNwZm9jdm91bmp1cHR4ZXFkIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTc3ODcwNzIsImV4cCI6MjAxMzM2MzA3Mn0.nraYMfkXnWBgf9r9mkrUos3ZSe_vCkp9hdrM-_1IwCQ"
 
 export default function CabinTable() {
-  const queryClient = useQueryClient();
-  const {isLoading:deleteLoading,mutate} = useMutation({
-    mutationFn: (id) => deleteCabin(id),
-    onSuccess: () => {
-      toast.success("Cabin deleted successfully");
-      queryClient.invalidateQueries("cabins");
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
+ 
+  const {isDeleting,deleteCabin}= useDeleteSelectedCabin();
   const {
-    data: cabins,
+    cabins,
     isLoading,
     error,
-  } = useQuery({
-    queryKey: ["cabins"],
-    queryFn: getCabins,
-  });
+  } = useCabins();
   if (isLoading) {
     return <Spinner />;
   }
   if (error) {
     return <div>error</div>;
   }
-  console.log(cabins);
+  
   
   return (
     <div className="">
@@ -57,10 +45,13 @@ export default function CabinTable() {
          <div>Fits {cabin.maxCapacity} guests</div>
          <div>{formatCurrency(cabin.regularPrice)}</div>
          <div>{formatCurrency(cabin.discount)}</div>
-         <div>
-          <button disabled={deleteLoading} onClick={()=>mutate(cabin.id)} className="btn btn-sm btn-square">
+         <div className="flex justify-center items-center">
+          <button disabled={isDeleting} onClick={()=>deleteCabin(cabin.id)} className="btn btn-sm btn-square">
             <FiTrash/>
           </button>
+          <Link to={`${cabin.id}`} className="btn btn-sm btn-success btn-square mx-1">
+            <FiEye/>
+          </Link>
          </div>
          </>
          

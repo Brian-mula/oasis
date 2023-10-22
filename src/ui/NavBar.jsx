@@ -10,7 +10,7 @@ export default function NavBar() {
         <FiGrid className='text-3xl'/>
     </span>
   </label>
-    <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
+    <a className="btn btn-ghost normal-case text-xl">Worldwise Oasis</a>
   </div>
   <div className="flex-none">
     <ul className="menu menu-horizontal px-1">
