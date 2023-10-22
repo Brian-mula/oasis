@@ -5,6 +5,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 
 import { Toaster } from "react-hot-toast";
+import CabinDetails from "./features/cabins/CabinDetails";
 import Account from "./pages/Account";
 import Bookings from "./pages/Bookings";
 import Cabins from "./pages/Cabins";
@@ -38,6 +39,7 @@ export default function App() {
           <Route path="settings" element={<Settings />} />
           <Route path="account" element={<Account />} />
           <Route path="bookings" element={<Bookings />} />
+          <Route path="cabins/:id" element={<CabinDetails />} />
         </Route>
 
         <Route path="login" element={<Login />} />
