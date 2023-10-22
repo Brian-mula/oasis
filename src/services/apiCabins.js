@@ -15,7 +15,7 @@ if(error) {
     console.log(error)
     throw new Error(error.message)
 }
-const { data:uploadData, error:storageError } = await supabase.storage.from('cabin-images').upload(imageName, cabin.image)
+const { error:storageError } = await supabase.storage.from('cabin-images').upload(imageName, cabin.image)
   if (storageError) {
     await supabase
 .from('cabins')
@@ -23,9 +23,7 @@ const { data:uploadData, error:storageError } = await supabase.storage.from('cab
 .eq('id', data.id)
     throw new Error(storageError.message)
   } 
-  else{
-    console.log(uploadData)
-  }
+ 
 return data;
 
 }
