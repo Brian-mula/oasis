@@ -3,7 +3,7 @@
 import { FiEye, FiTrash } from "react-icons/fi";
 
 
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Spinner from "../../ui/Spinner";
 import { formatCurrency } from "../../utils/helpers";
 import { useCabins } from "./useCabin";
@@ -19,11 +19,21 @@ export default function CabinTable() {
     isLoading,
     error,
   } = useCabins();
+  const [searchParams] = useSearchParams();
+  const discount = searchParams.get("discount") || "all";
   if (isLoading) {
     return <Spinner />;
   }
   if (error) {
     return <div>error</div>;
+  }
+  let filteredCabins;
+  if (discount === "with-discount") {
+    filteredCabins = cabins.filter((cabin) => cabin.discount > 0);
+  } else if (discount === "no-discount") {
+    filteredCabins = cabins.filter((cabin) => cabin.discount === 0);
+  } else {
+    filteredCabins = cabins;
   }
   
   
@@ -38,7 +48,7 @@ export default function CabinTable() {
         <div></div>
       </div>
       <div className="grid grid-cols-6 gap-2">
-      {cabins.map((cabin) => (
+      {filteredCabins.map((cabin) => (
          <>
          <img src={cabin.image} alt="" className="h-20 w-20 rounded-sm"/>
          <div>{cabin.name}</div>
