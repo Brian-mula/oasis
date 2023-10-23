@@ -1,19 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
 import { format, isToday } from "date-fns";
-import { HiOutlineHomeModern } from "react-icons/hi2";
+import { HiArrowSmallUp, HiOutlineHomeModern } from "react-icons/hi2";
 import { useParams } from "react-router-dom";
 import { getBooking } from "../../services/apiBookings";
 import BackButton from "../../ui/BackButton";
 import Spinner from "../../ui/Spinner";
 import { formatCurrency, formatDistanceFromNow } from "../../utils/helpers";
+import { useCheckOut } from "../check-in-out/useCheckout";
 
 
 export default function BookingDetail() {
   const {bookingId} = useParams()
   const {data:booking,isloading,error} = useQuery({
-    queryKey:['booking'],
+    queryKey:['booking',bookingId],
     queryFn:()=> getBooking(bookingId),
   })
+  const {isCheckingOut,checkOut}= useCheckOut();
+  
  
   const{id,created_at,cabins,guests,endDate,startDate,status,totalPrice,extraprice,hasBreakfast,isPaid,numGuests,numNights,cabinPrice}=booking || {};
     console.log(booking)
@@ -24,6 +27,9 @@ export default function BookingDetail() {
       return <p>error</p>;
     }
     console.log(cabins)
+    const checkout = () => {
+      checkOut(id);
+    };
 
   return (
     <div>
@@ -55,6 +61,12 @@ export default function BookingDetail() {
         <p>Total price: {formatCurrency(totalPrice)} ({`${formatCurrency(cabinPrice)}cabin + ${formatCurrency(extraprice)} breakfast`})</p>
         <p className="text-white text-xl">{`${isPaid ? "paid on Booking" : "Will Pay at Property"} `} </p>
       </div>
+      { booking.status === 'checked-in' && <div className="flex justify-end items-center my-3">
+      <button onClick={checkout} disabled={isCheckingOut} className="btn flex bg-indigo-700 hover:bg-indigo-600 text-white">
+          <HiArrowSmallUp className="text-lg"/>
+          <span>Check out</span>
+        </button>
+        </div>}
       <p className="text-xm py-3 text-right">Booked {format(new Date(created_at), "EEE, MMM dd yyyy, p")}</p>
     </div>
   )
