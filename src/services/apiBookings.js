@@ -10,7 +10,7 @@ if (error) {
   console.error(error)
   throw new Error('Bookings could not get loaded')
 }
-console.log(bookings)
+
 return bookings
 }
 
