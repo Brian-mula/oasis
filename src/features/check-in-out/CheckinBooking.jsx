@@ -1,55 +1,132 @@
-import styled from "styled-components";
-import BookingDataBox from "../../features/bookings/BookingDataBox";
+import { useQuery } from "@tanstack/react-query";
+import { format, isToday } from "date-fns";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
-import Row from "../../ui/Row";
-import Heading from "../../ui/Heading";
-import ButtonGroup from "../../ui/ButtonGroup";
-import Button from "../../ui/Button";
-import ButtonText from "../../ui/ButtonText";
 
-import { useMoveBack } from "../../hooks/useMoveBack";
+import { HiOutlineHomeModern } from "react-icons/hi2";
+import { getBooking } from "../../services/apiBookings";
+import BackButton from "../../ui/BackButton";
+import Checkbox from "../../ui/Checkbox";
+import Spinner from "../../ui/Spinner";
+import { formatCurrency, formatDistanceFromNow } from "../../utils/helpers";
+import { useCheckIn } from "./useCheckin";
 
-const Box = styled.div`
-  /* Box */
-  background-color: var(--color-grey-0);
-  border: 1px solid var(--color-grey-100);
-  border-radius: var(--border-radius-md);
-  padding: 2.4rem 4rem;
-`;
+export default function CheckinBooking() {
+  const { bookingId } = useParams();
+  const {
+    data: booking,
+    isloading,
+    error,
+  } = useQuery({
+    queryKey: ["booking"],
+    queryFn: () => getBooking(bookingId),
+  });
+  const [isConfirmed, setIsConfirmed] = useState(false);
+  const {checkIn,isCheckingIn} = useCheckIn();
 
-function CheckinBooking() {
-  const moveBack = useMoveBack();
-
-  const booking = {};
+  useEffect(() => setIsConfirmed(booking?.isPaid ?? false),[booking])
 
   const {
-    id: bookingId,
+    id,
+    created_at,
+    cabins,
     guests,
+    endDate,
+    startDate,
+    status,
     totalPrice,
-    numGuests,
+    extraprice,
     hasBreakfast,
+    isPaid,
+    numGuests,
     numNights,
-  } = booking;
-
-  function handleCheckin() {}
+    cabinPrice,
+  } = booking || {};
+  console.log(booking);
+  if (isloading || !booking) {
+    return <Spinner />;
+  }
+  if (error) {
+    return <p>error</p>;
+  }
+  console.log(cabins);
+  const handleCheckin = () => {
+    if(!isConfirmed) return;
+    checkIn(id);
+    console.log("checkin");
+  }
 
   return (
-    <>
-      <Row type="horizontal">
-        <Heading as="h1">Check in booking #{bookingId}</Heading>
-        <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
-      </Row>
+    <div>
+      <div className="flex justify-between items-start my-3">
+        <BackButton />
+        <div className="flex">
+          <h1 className="font-bold text-lg">Checkin Booking # {id} </h1>
+          <span
+            className={`text-xs text-center mx-2 bg-gray-200 p-1 rounded-full ${
+              status === "unconfirmed"
+                ? "bg-orange-400 text-white font-bold"
+                : status === "confirmed"
+                ? "bg-green-600 text-white font-bold"
+                : "bg-blue-600 text-white font-bold"
+            }`}
+          >
+            {status}
+          </span>
+        </div>
+      </div>
+      <div className="px-2 py-2 bg-indigo-700 rounded-t-md flex justify-between items-center">
+        <div className="flex items-center">
+          <HiOutlineHomeModern className="text-white text-xl " />
+          <p className="text-white text-lg px-2">
+            {numNights} nights in cabin {cabins.name}
+          </p>
+        </div>
+        <p className="text-white text-xl">
+          {format(new Date(startDate), "EEE, MMM dd yyyy")} (
+          {isToday(new Date(startDate))
+            ? "Today"
+            : formatDistanceFromNow(startDate)}
+          ) &mdash; {format(new Date(endDate), "EEE, MMM dd yyyy")}{" "}
+        </p>
+      </div>
+      <div className="px-7 py-3 grid grid-cols-3 gap-x-10 gap-y-4">
+        <p>
+          .{guests.fullName} + {numGuests - 1} guest
+        </p>
+        <p>.{guests.email}</p>
+        <p>.National ID: {guests.nationalId}</p>
+        <p>.Breakfast included? {`${hasBreakfast ? "Yes" : "No"} `}</p>
+      </div>
+      <div className="px-2 py-2 bg-orange-300 rounded-t-md flex justify-between items-center">
+        <p>
+          Total price: {formatCurrency(totalPrice)} (
+          {`${formatCurrency(cabinPrice)}cabin + ${formatCurrency(
+            extraprice
+          )} breakfast`}
+          )
+        </p>
+        <p className="text-white text-xl">
+          {`${isPaid ? "paid on Booking" : "Will Pay at Property"} `}{" "}
+        </p>
+      </div>
+      <div className="mt-4">
+      <Checkbox
+      checked={isConfirmed}
+      onChange={()=>setIsConfirmed((confirmed=>!confirmed))}
+      disabled={isConfirmed}
+      >
+            I confirm that {guests.fullName} has paid {formatCurrency(totalPrice)}.
+      </Checkbox>
+      </div>
+      <p className="text-xm py-3 text-right">
+        Booked {format(new Date(created_at), "EEE, MMM dd yyyy, p")}
+      </p>
 
-      <BookingDataBox booking={booking} />
-
-      <ButtonGroup>
-        <Button onClick={handleCheckin}>Check in booking #{bookingId}</Button>
-        <Button variation="secondary" onClick={moveBack}>
-          Back
-        </Button>
-      </ButtonGroup>
-    </>
+      <div className="flex justify-end items-center px-4 mx-5">
+        <button onClick={handleCheckin} disabled={!isConfirmed || isCheckingIn} className="btn bg-indigo-700 text-white">Check in # {id}</button>
+      </div>
+    </div>
   );
 }
-
-export default CheckinBooking;
