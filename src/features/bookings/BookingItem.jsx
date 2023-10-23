@@ -1,9 +1,14 @@
-import { HiOutlineArrowDown } from "react-icons/hi2";
+import { HiArrowSmallUp, HiOutlineArrowDown } from "react-icons/hi2";
 import { Link } from "react-router-dom";
 import TableOperation from "../../ui/TableOperation";
 import { formatCurrency, formatDate } from "../../utils/helpers";
+import { useCheckOut } from "../check-in-out/useCheckout";
 
 export default function BookingItem({ booking }) {
+  const {isCheckingOut,checkOut}= useCheckOut();
+  const checkout = () => {
+    checkOut(booking.id);
+  };
   return (
     <>
       <div className="w-52">
@@ -33,6 +38,10 @@ export default function BookingItem({ booking }) {
         >
           <HiOutlineArrowDown />
         </Link>}
+
+        { booking.status === 'checked-in' && <button onClick={checkout} disabled={isCheckingOut} className="btn btn-sm btn-square">
+          <HiArrowSmallUp className="text-lg"/>
+        </button>}
       </div>
     </>
   );
