@@ -7,8 +7,10 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import CabinDetails from "./features/cabins/CabinDetails";
 import Account from "./pages/Account";
+import Booking from "./pages/Booking";
 import Bookings from "./pages/Bookings";
 import Cabins from "./pages/Cabins";
+import Checkin from "./pages/Checkin";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
@@ -39,6 +41,8 @@ export default function App() {
           <Route path="settings" element={<Settings />} />
           <Route path="account" element={<Account />} />
           <Route path="bookings" element={<Bookings />} />
+          <Route path="bookings/:bookingId" element={<Booking />} />
+          <Route path="checkin/:bookingId" element={<Checkin />} />
           <Route path="cabins/:id" element={<CabinDetails />} />
         </Route>
 

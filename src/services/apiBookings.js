@@ -1,9 +1,22 @@
 import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
 
+export async function getBookings() {
+
+const { data: bookings, error } = await supabase
+.from('booking')
+.select('*, cabins(name), guests(fullName,email)')
+if (error) {
+  console.error(error)
+  throw new Error('Bookings could not get loaded')
+}
+
+return bookings
+}
+
 export async function getBooking(id) {
   const { data, error } = await supabase
-    .from("bookings")
+    .from("booking")
     .select("*, cabins(*), guests(*)")
     .eq("id", id)
     .single();
@@ -72,7 +85,7 @@ export async function getStaysTodayActivity() {
 
 export async function updateBooking(id, obj) {
   const { data, error } = await supabase
-    .from("bookings")
+    .from("booking")
     .update(obj)
     .eq("id", id)
     .select()

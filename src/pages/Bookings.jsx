@@ -1,8 +1,34 @@
+import BookingTable from "../features/bookings/BookingTable";
+import BackButton from "../ui/BackButton";
+import FilterComponent from "../ui/FilterComponent";
+
 
 function Bookings() {
+  const options = [
+    {
+      label:'All',
+      value:'all'
+    },
+    {
+      label:'Unconfirmed',
+      value:'unconfirmed'
+    },
+    {
+      label:'Checked In',
+      value:'checked-in'
+    },
+    {
+      label:'Checked Out',
+      value:'checked-out'
+    }
+  ]
   return (
    <div>
-    <h1>Bookings</h1>
+   <div className="flex justify-between items-start mt-4">
+    <BackButton/>
+    <FilterComponent options={options} param="status"/>
+   </div>
+   <BookingTable/>
    </div>
   );
 }
