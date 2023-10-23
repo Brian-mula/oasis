@@ -1,5 +1,6 @@
 import CabinTable from "../features/cabins/CabinTable";
 import CreateCabinForm from "../features/cabins/CreateCabinForm";
+import FilterComponent from "../ui/FilterComponent";
 
 function Cabins() {
   
@@ -10,8 +11,7 @@ function Cabins() {
       <h1 className="text-xl font-semibold">Cabins</h1>
 
       <div className="flex items-center">
-      <p>Filter</p>
-      <p>Sort</p>
+      <FilterComponent/>
       <CreateCabinForm/>
 
       </div>
