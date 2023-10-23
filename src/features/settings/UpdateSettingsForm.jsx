@@ -28,7 +28,7 @@ function UpdateSettingsForm() {
         <div className="md:flex md:items-center mb-6">
           <div className="md:w-80">
             <label className="block text-gray-500 font-bold md:text-start mb-1 md:mb-0 pr-4">
-              Maximum Nights/Bookin
+              Maximum Nights/Booking
             </label>
           </div>
           <div className="md:w-2/3">
@@ -44,7 +44,7 @@ function UpdateSettingsForm() {
         <div className="md:flex md:items-center mb-6">
           <div className="md:w-80">
             <label className="block text-gray-500 font-bold md:text-start mb-1 md:mb-0 pr-4">
-              Minimum Nights/Bookin
+              Minimum Nights/Booking
             </label>
           </div>
           <div className="md:w-2/3">
@@ -60,7 +60,7 @@ function UpdateSettingsForm() {
         <div className="md:flex md:items-center mb-6">
           <div className="md:w-80">
             <label className="block text-gray-500 font-bold md:text-start mb-1 md:mb-0 pr-4">
-              Maximum Guests/Bookin
+              Maximum Guests/Booking
             </label>
           </div>
           <div className="md:w-2/3">
