@@ -65,7 +65,7 @@ export default function CheckinBooking() {
         totalPrice:totalPrice+breakfastPrice
       }})
     }else{
-      checkIn({id,breakfast:{}});
+      checkIn({bookinId:id,breakfast:{}});
     }
     
   };
