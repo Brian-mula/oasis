@@ -1,7 +1,7 @@
 import { FiEye, FiTrash } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
-export default function TableOperation({path,onClick,condition}) {
+export default function TableOperation({path,onClick,condition,}) {
   return (
     <div className="flex justify-center items-start">
       <button
