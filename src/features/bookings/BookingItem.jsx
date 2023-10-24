@@ -3,12 +3,15 @@ import { Link } from "react-router-dom";
 import TableOperation from "../../ui/TableOperation";
 import { formatCurrency, formatDate } from "../../utils/helpers";
 import { useCheckOut } from "../check-in-out/useCheckout";
+import { useDeleteBooking } from "./useDeleteBooking";
 
 export default function BookingItem({ booking }) {
   const {isCheckingOut,checkOut}= useCheckOut();
+  const {isDeleting,deleteBooking}= useDeleteBooking();
   const checkout = () => {
     checkOut(booking.id);
   };
+
   return (
     <>
       <div className="w-52">
@@ -31,7 +34,7 @@ export default function BookingItem({ booking }) {
       </div>
       <div>{formatCurrency(booking.totalPrice)}</div>
       <div className="flex">
-        <TableOperation path={`${booking.id}`} />
+        <TableOperation path={`${booking.id}`} onClick={()=>deleteBooking(booking.id)} condition={isDeleting} />
         { booking.status === 'unconfirmed' && <Link
           to={`/checkin/${booking.id}`}
           className="btn btn-sm btn-success btn-square mx-1"
