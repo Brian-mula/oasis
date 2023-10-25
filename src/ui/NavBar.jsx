@@ -2,10 +2,12 @@
 import { useEffect } from "react";
 import { FiGrid } from "react-icons/fi";
 import { HiLogout } from "react-icons/hi";
+import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function NavBar() {
   //const {signOut} = useLogout();
+  //const {user} = useUser();
   const { localUser,logout} = useAuth()
   useEffect(() => {}, [localUser])
 
@@ -24,7 +26,7 @@ export default function NavBar() {
     <a className="btn btn-ghost normal-case text-xl">Worldwise Oasis</a>
   </div>
   <div className="flex-none">
-    <ul className="menu menu-horizontal px-1">
+    <ul className="menu menu-horizontal px-1 flex items-center">
      {
       localUser &&  <li>
       <button onClick={handleLogout} className="btn btn-warning btn-sm btn-square">
@@ -32,17 +34,14 @@ export default function NavBar() {
       </button>
     </li>
      }
-      <li>
-        <details>
-          <summary>
-            Parent
-          </summary>
-          <ul className="p-2 bg-base-100">
-            <li><a>Link 1</a></li>
-            <li><a>Link 2</a></li>
-          </ul>
-        </details>
+      <li className="">
+       <Link to="profile" className="mx-2 flex items-center">
+       <img src="/default-user.jpg" alt="" className="h-10 w-10 rounded-full object-cover" />
+       <p>{localUser.user_metadata.name
+}</p>
+       </Link>
       </li>
+
     </ul>
   </div>
 </div>
