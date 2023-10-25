@@ -1,7 +1,18 @@
 
+import { useEffect } from "react";
 import { FiGrid } from "react-icons/fi";
+import { HiLogout } from "react-icons/hi";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function NavBar() {
+  //const {signOut} = useLogout();
+  const { localUser,logout} = useAuth()
+  useEffect(() => {}, [localUser])
+
+  const handleLogout = async () => {
+    await logout();
+  }
+
   return (
     <div className="navbar bg-base-200">
   <div className="felx flex-1">
@@ -14,7 +25,13 @@ export default function NavBar() {
   </div>
   <div className="flex-none">
     <ul className="menu menu-horizontal px-1">
-      <li><a>Link</a></li>
+     {
+      localUser &&  <li>
+      <button onClick={handleLogout} className="btn btn-warning btn-sm btn-square">
+        <HiLogout className="text-2xl"/>
+      </button>
+    </li>
+     }
       <li>
         <details>
           <summary>

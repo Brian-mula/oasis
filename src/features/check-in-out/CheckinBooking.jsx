@@ -3,13 +3,13 @@ import { format, isToday } from "date-fns";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-
 import { HiOutlineHomeModern } from "react-icons/hi2";
 import { getBooking } from "../../services/apiBookings";
 import BackButton from "../../ui/BackButton";
 import Checkbox from "../../ui/Checkbox";
 import Spinner from "../../ui/Spinner";
 import { formatCurrency, formatDistanceFromNow } from "../../utils/helpers";
+import { useSettings } from "../settings/useSettings";
 import { useCheckIn } from "./useCheckin";
 
 export default function CheckinBooking() {
@@ -23,9 +23,13 @@ export default function CheckinBooking() {
     queryFn: () => getBooking(bookingId),
   });
   const [isConfirmed, setIsConfirmed] = useState(false);
-  const {checkIn,isCheckingIn} = useCheckIn();
+  const [isTakingBreakfast, setIsTakingBreakfast] = useState(false);
+  const { checkIn, isCheckingIn } = useCheckIn();
+  const {isLoading:isLoadingSettings,settings}= useSettings();
 
-  useEffect(() => setIsConfirmed(booking?.isPaid ?? false),[booking])
+  
+
+  useEffect(() => setIsConfirmed(booking?.isPaid ?? false), [booking]);
 
   const {
     id,
@@ -44,18 +48,27 @@ export default function CheckinBooking() {
     cabinPrice,
   } = booking || {};
   console.log(booking);
-  if (isloading || !booking) {
+  if (isloading || !booking || isLoadingSettings) {
     return <Spinner />;
   }
   if (error) {
     return <p>error</p>;
   }
   console.log(cabins);
+  const breakfastPrice = settings?.breakFastPrice * numGuests * numNights;
   const handleCheckin = () => {
-    if(!isConfirmed) return;
-    checkIn(id);
-    console.log("checkin");
-  }
+    if (!isConfirmed) return;
+    if(isTakingBreakfast){
+      checkIn({bookinId:id,breakfast:{
+        hasBreakfast:true,
+        extraprice:breakfastPrice,
+        totalPrice:totalPrice+breakfastPrice
+      }})
+    }else{
+      checkIn({bookinId:id,breakfast:{}});
+    }
+    
+  };
 
   return (
     <div>
@@ -111,22 +124,46 @@ export default function CheckinBooking() {
           {`${isPaid ? "paid on Booking" : "Will Pay at Property"} `}{" "}
         </p>
       </div>
-      <div className="mt-4">
-      <Checkbox
-      checked={isConfirmed}
-      onChange={()=>setIsConfirmed((confirmed=>!confirmed))}
-      disabled={isConfirmed}
-      >
-            I confirm that {guests.fullName} has paid {formatCurrency(totalPrice)}.
-      </Checkbox>
-      </div>
+     {!hasBreakfast && <div className="mt-4">
+        <Checkbox
+          checked={isTakingBreakfast}
+          onChange={() => {
+            setIsTakingBreakfast((takingBreakfast) => !takingBreakfast);
+            setIsConfirmed(false);
+          }}
+          id="breakfast"
+        >Would you like to add Breakfast of {formatCurrency(breakfastPrice)} </Checkbox>
+      </div>}
+      {status === "unconfirmed" && (
+        <div className="mt-4">
+          <Checkbox
+            checked={isConfirmed}
+            onChange={() => setIsConfirmed((confirmed) => !confirmed)}
+            disabled={isConfirmed}
+          >
+            {
+              isTakingBreakfast
+                ? `I Confirm that ${guests.fullName} has paid ${formatCurrency(
+                    totalPrice + breakfastPrice
+                  )}`
+                : `Confirm that ${guests.fullName} has paid ${formatCurrency(totalPrice)}`
+            }
+          </Checkbox>
+        </div>
+      )}
       <p className="text-xm py-3 text-right">
         Booked {format(new Date(created_at), "EEE, MMM dd yyyy, p")}
       </p>
 
-      <div className="flex justify-end items-center px-4 mx-5">
-        <button onClick={handleCheckin} disabled={!isConfirmed || isCheckingIn} className="btn bg-indigo-700 text-white">Check in # {id}</button>
-      </div>
+   { status === "unconfirmed" &&  <div className="flex justify-end items-center px-4 mx-5">
+        <button
+          onClick={handleCheckin}
+          disabled={!isConfirmed || isCheckingIn}
+          className="btn bg-indigo-700 text-white"
+        >
+          Check in # {id}
+        </button>
+      </div>}
     </div>
   );
 }

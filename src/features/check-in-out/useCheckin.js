@@ -5,7 +5,7 @@ import { updateBooking } from "../../services/apiBookings";
 export function useCheckIn(){
     const queryClient = useQueryClient();
     const {mutate:checkIn,isLoading:isCheckingIn} = useMutation({
-        mutationFn:(bookinId)=>updateBooking(bookinId,{status:"checked-in",isPaid:true}),
+        mutationFn:({bookinId,breakfast})=>updateBooking(bookinId,{status:"checked-in",isPaid:true,...breakfast}),
         onSuccess:(data)=>{
             toast.success(`Check in booking ${data.id} was successful`);
             queryClient.invalidateQueries({active:true});

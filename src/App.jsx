@@ -5,6 +5,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 
 import { Toaster } from "react-hot-toast";
+import { AuthContextProvider } from "./contexts/AuthContext";
 import CabinDetails from "./features/cabins/CabinDetails";
 import Account from "./pages/Account";
 import Booking from "./pages/Booking";
@@ -17,6 +18,7 @@ import PageNotFound from "./pages/PageNotFound";
 import Settings from "./pages/Settings";
 import Users from "./pages/Users";
 import AppLayout from "./ui/AppLayout";
+import ProtectedRoute from "./ui/ProtectedRoute";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,11 +31,14 @@ const queryClient = new QueryClient({
 
 export default function App() {
   return (
+    <AuthContextProvider> 
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
     <BrowserRouter>
       <Routes>
-        <Route element={<AppLayout />}>
+        <Route element={<ProtectedRoute>
+          <AppLayout />
+        </ProtectedRoute>}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route index element={<Navigate replace to="dashboard" />} />
           <Route path="cabins" element={<Cabins />} />
@@ -65,5 +70,6 @@ export default function App() {
     />
 
     </QueryClientProvider>
+    </AuthContextProvider>
   );
 }
