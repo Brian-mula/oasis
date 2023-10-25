@@ -5,6 +5,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 
 import { Toaster } from "react-hot-toast";
+import { AuthContextProvider } from "./contexts/AuthContext";
 import CabinDetails from "./features/cabins/CabinDetails";
 import Account from "./pages/Account";
 import Booking from "./pages/Booking";
@@ -30,6 +31,7 @@ const queryClient = new QueryClient({
 
 export default function App() {
   return (
+    <AuthContextProvider> 
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
     <BrowserRouter>
@@ -68,5 +70,6 @@ export default function App() {
     />
 
     </QueryClientProvider>
+    </AuthContextProvider>
   );
 }
