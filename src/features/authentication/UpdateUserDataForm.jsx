@@ -1,11 +1,21 @@
 import { useState } from "react";
-import { useAuth } from "../../contexts/AuthContext";
+import { useUpdateuser } from "./useUpdateuser";
+import { useUser } from "./useUser";
 
 
 export default function UpdateUserDataForm() {
-  const {localUser} = useAuth();
-  const [email] = useState(localUser.email)
-  const [name, setName] = useState(localUser.user_metadata.name)
+  const {updateUser,isUpdating} = useUpdateuser();
+  const {user} = useUser();
+  const [email] = useState(user.email)
+  const [name, setName] = useState(user.user_metadata.name)
+  const [avater, setAvatar] = useState('')
+  console.log(avater)
+  const handleUpdate=(e)=>{
+    e.preventDefault();
+    if(!name) return;
+    updateUser({name,avater,})
+
+  }
   return (
     <div className="flex flex-col justify-center h-[calc(100vh-7rem)]">
     <form className="w-full max-w-lg mx-auto">
@@ -48,11 +58,21 @@ export default function UpdateUserDataForm() {
         </div>
         <div className="md:w-2/3">
           <input
-           
+           onChange={(e) => setAvatar(e.target.files[0])}
             className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
             type="file"
           />
         </div>
+      </div>
+      <div>
+        <button
+          onClick={handleUpdate}
+          disabled={isUpdating}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          type="button"
+        >
+          Update
+        </button>
       </div>
       
     </form>
