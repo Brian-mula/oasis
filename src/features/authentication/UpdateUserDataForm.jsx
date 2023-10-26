@@ -1,57 +1,81 @@
 import { useState } from "react";
-
-import Button from "../../ui/Button";
-import FileInput from "../../ui/FileInput";
-import Form from "../../ui/Form";
-import FormRow from "../../ui/FormRow";
-import Input from "../../ui/Input";
-
+import { useUpdateuser } from "./useUpdateuser";
 import { useUser } from "./useUser";
 
-function UpdateUserDataForm() {
-  // We don't need the loading state, and can immediately use the user data, because we know that it has already been loaded at this point
-  const {
-    user: {
-      email,
-      user_metadata: { fullName: currentFullName },
-    },
-  } = useUser();
 
-  const [fullName, setFullName] = useState(currentFullName);
-  const [avatar, setAvatar] = useState(null);
-
-  function handleSubmit(e) {
+export default function UpdateUserDataForm() {
+  const {updateUser,isUpdating} = useUpdateuser();
+  const {user} = useUser();
+  const [email] = useState(user.email)
+  const [name, setName] = useState(user.user_metadata.name)
+  const [avater, setAvatar] = useState('')
+  console.log(avater)
+  const handleUpdate=(e)=>{
     e.preventDefault();
+    if(!name) return;
+    updateUser({name,avater,})
+
   }
-
   return (
-    <Form onSubmit={handleSubmit}>
-      <FormRow label="Email address">
-        <Input value={email} disabled />
-      </FormRow>
-      <FormRow label="Full name">
-        <Input
-          type="text"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-          id="fullName"
-        />
-      </FormRow>
-      <FormRow label="Avatar image">
-        <FileInput
-          id="avatar"
-          accept="image/*"
-          onChange={(e) => setAvatar(e.target.files[0])}
-        />
-      </FormRow>
-      <FormRow>
-        <Button type="reset" variation="secondary">
-          Cancel
-        </Button>
-        <Button>Update account</Button>
-      </FormRow>
-    </Form>
-  );
+    <div className="flex flex-col justify-center h-[calc(100vh-7rem)]">
+    <form className="w-full max-w-lg mx-auto">
+      <div className="md:flex md:items-center mb-6">
+        <div className="md:w-60">
+          <label className="block text-gray-500 font-bold md:text-start mb-1 md:mb-0 pr-4">
+          Full Name
+          </label>
+        </div>
+        <div className="md:w-2/3">
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+            type="text"
+            
+          />
+        </div>
+      </div>
+      <div className="md:flex md:items-center mb-6">
+        <div className="md:w-60">
+          <label className="block text-gray-500 font-bold md:text-start mb-1 md:mb-0 pr-4">
+            Email
+          </label>
+        </div>
+        <div className="md:w-2/3">
+          <input
+            value={email}
+            disabled
+            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+            type="email"
+          />
+        </div>
+      </div>
+      <div className="md:flex md:items-center mb-6">
+        <div className="md:w-60">
+          <label className="block text-gray-500 font-bold md:text-start mb-1 md:mb-0 pr-4">
+            Avater
+          </label>
+        </div>
+        <div className="md:w-2/3">
+          <input
+           onChange={(e) => setAvatar(e.target.files[0])}
+            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+            type="file"
+          />
+        </div>
+      </div>
+      <div>
+        <button
+          onClick={handleUpdate}
+          disabled={isUpdating}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          type="button"
+        >
+          Update
+        </button>
+      </div>
+      
+    </form>
+  </div>
+  )
 }
-
-export default UpdateUserDataForm;

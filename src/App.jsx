@@ -6,6 +6,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import { Toaster } from "react-hot-toast";
 import { AuthContextProvider } from "./contexts/AuthContext";
+import UpdateUserDataForm from "./features/authentication/UpdateUserDataForm";
 import CabinDetails from "./features/cabins/CabinDetails";
 import Account from "./pages/Account";
 import Booking from "./pages/Booking";
@@ -49,6 +50,7 @@ export default function App() {
           <Route path="bookings/:bookingId" element={<Booking />} />
           <Route path="checkin/:bookingId" element={<Checkin />} />
           <Route path="cabins/:id" element={<CabinDetails />} />
+          <Route path="profile" element={<UpdateUserDataForm />} />
         </Route>
 
         <Route path="login" element={<Login />} />
