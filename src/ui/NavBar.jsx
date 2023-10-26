@@ -4,10 +4,11 @@ import { FiGrid } from "react-icons/fi";
 import { HiLogout } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { useUser } from "../features/authentication/useUser";
 
 export default function NavBar() {
   //const {signOut} = useLogout();
-  //const {user} = useUser();
+  const {user} = useUser();
   const { localUser,logout} = useAuth()
   useEffect(() => {}, [localUser])
 
@@ -36,8 +37,8 @@ export default function NavBar() {
      }
       <li className="">
        <Link to="profile" className="mx-2 flex items-center">
-       <img src="/default-user.jpg" alt="" className="h-10 w-10 rounded-full object-cover" />
-       <p>{localUser.user_metadata.name
+       <img src={`${user?.user_metadata.avater || "/default-user.jpg"}`} alt="" className="h-10 w-10 rounded-full object-cover" />
+       <p>{user?.user_metadata.name
 }</p>
        </Link>
       </li>
