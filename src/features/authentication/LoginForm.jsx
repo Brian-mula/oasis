@@ -14,7 +14,7 @@ function LoginForm() {
     if(localUser){
       navigate('/dashboard');
     }
-  }, [localUser])
+  }, [localUser,navigate])
 
   async function handleSubmit(e) {
     e.preventDefault();

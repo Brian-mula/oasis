@@ -1,10 +1,7 @@
+import UserDetails from "../features/user/UserDetails";
 
 function Account() {
-  return (
-    <>
-     <h1>Accounts</h1>
-    </>
-  );
+  return <UserDetails/>
 }
 
 export default Account;

@@ -6,7 +6,7 @@ export default function Stats({bookings,confirmedStays,cabins,numDays}) {
     const numBookings = bookings.length;
     const sales = bookings.reduce((acc,booking)=>acc+booking.totalPrice,0)
     const checkins = confirmedStays?.length;
-    const occupation = confirmedStays?.reduce((acc,stay)=>acc+stay.numNights,0)/(cabins.length*numDays)*100;
+    const occupation = confirmedStays?.reduce((acc,stay)=>acc+stay.numNights,0)/(cabins.length*numDays);
   return (
   <div className='grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 gap-x-5 gap-y-8'>
     <Stat icon={<HiOutlineBriefcase/>} title='Bookings' value={numBookings} color='blue'/>
