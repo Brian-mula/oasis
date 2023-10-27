@@ -30,7 +30,7 @@ function CreateCabinForm() {
   const onSubmitCabin = (data) => {
     
      mutate({...data,image:data.image[0]});
-    console.log(data);
+    
     
     closeModal();
   };

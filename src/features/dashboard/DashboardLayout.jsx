@@ -24,11 +24,11 @@ export default function DashboardLayout() {
     },
   ];
   const { isLoading, bookings, numDays } = useRecentBookings();
-  const { isLoading: isLoadingStays, stays, confirmedStays } = useRecentStays();
+  const { isLoading: isLoadingStays, stays } = useRecentStays();
   const { isLoading: isLoadingCabins, cabins } = useCabins();
   if (isLoading || isLoadingStays || isLoadingCabins) return <Spinner />;
 
-  console.log(bookings, stays, confirmedStays);
+ 
   return (
     <div className="">
       <div className="flex justify-between items-start mt-4">

@@ -19,7 +19,7 @@ function LoginForm() {
   async function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password) return;
-    console.log(localUser);
+    
     await login({ email, password });
     navigate('/dashboard', {replace: true});
    

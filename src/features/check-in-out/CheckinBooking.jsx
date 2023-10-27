@@ -7,7 +7,7 @@ import { HiOutlineHomeModern } from "react-icons/hi2";
 import { getBooking } from "../../services/apiBookings";
 import BackButton from "../../ui/BackButton";
 import Checkbox from "../../ui/Checkbox";
-import Spinner from "../../ui/Spinner";
+import Loaded from "../../ui/Loaded";
 import { formatCurrency, formatDistanceFromNow } from "../../utils/helpers";
 import { useSettings } from "../settings/useSettings";
 import { useCheckIn } from "./useCheckin";
@@ -49,7 +49,7 @@ export default function CheckinBooking() {
   } = booking || {};
   console.log(booking);
   if (isloading || !booking || isLoadingSettings) {
-    return <Spinner />;
+    return <Loaded />;
   }
   if (error) {
     return <p>error</p>;

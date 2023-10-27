@@ -28,7 +28,7 @@ export default function BookingDetail() {
     if(error) {
       return <p>error</p>;
     }
-    console.log(cabins)
+    
     const checkout = () => {
       checkOut(id);
     };

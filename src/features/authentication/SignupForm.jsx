@@ -7,7 +7,7 @@ import UserItem from './UserItem';
 
 export default function SignupForm() {
   const {guests,isLoading} = useGuests();
-  console.log(guests);
+
   if(isLoading) return <Loaded/>
   return (
     <div>

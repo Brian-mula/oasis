@@ -12,7 +12,7 @@ const { data, error } = await supabase
 ])
 .select()
 if(error) {
-    console.log(error)
+   // console.log(error)
     throw new Error(error.message)
 }
 const { error:storageError } = await supabase.storage.from('cabin-images').upload(imageName, cabin.image)
@@ -34,7 +34,7 @@ const { data, error } = await supabase
 .from('cabins')
 .select('*');
 if(error) {
-    console.log(error)
+    //console.log(error)
     throw new Error(error.message)
 }
 return data;

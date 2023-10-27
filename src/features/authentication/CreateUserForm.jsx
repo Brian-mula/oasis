@@ -19,7 +19,7 @@ export default function CreateUserForm() {
   const onSubmitCabin = (data) => {
     
     signUpUser(data)
-    console.log(data);
+    
     
     closeModal();
   };

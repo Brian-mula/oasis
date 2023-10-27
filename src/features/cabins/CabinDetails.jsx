@@ -12,7 +12,7 @@ export default function CabinDetails() {
     const {id} = useParams();
     const {cabins,isLoading} = useCabins();
     const cabin = cabins.find((cabin)=>cabin.id===Number(id));
-    console.log(cabin);
+    
     if(isLoading){
         return <Spinner/>
     }

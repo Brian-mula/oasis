@@ -9,7 +9,7 @@ export default function UpdateUserDataForm() {
   const [email] = useState(user.email)
   const [name, setName] = useState(user.user_metadata.name)
   const [avater, setAvatar] = useState('')
-  console.log(avater)
+ 
   const handleUpdate=(e)=>{
     e.preventDefault();
     if(!name) return;

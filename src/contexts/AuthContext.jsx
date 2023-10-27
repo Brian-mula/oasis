@@ -26,7 +26,7 @@ function reducer(state, action){
                 localUser: action.payload
             }
         case 'currentuser/loaded':
-            console.log(action.payload)
+           
             return {
                 ...state,
                 
@@ -73,11 +73,11 @@ function AuthContextProvider({children}){
                 password
               })
               if(error){
-                console.log(error)
+                
                 dispatch({type: 'ERROR', payload: error.message})
                 throw new Error(error.message)
               }
-            console.log(data)
+            
             dispatch({type: 'login/loaded', payload: data.user})
         
     
