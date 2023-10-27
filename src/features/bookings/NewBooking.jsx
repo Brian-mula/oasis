@@ -50,8 +50,7 @@ export default function NewBooking() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if(startDate === endDate || !cabin || !guest)return;
-    // const formattedStartDate = moment(startDate).format('DD/MM/YYYY');
-    // const formattedEndDate = moment(endDate).format('DD/MM/YYYY');
+    
     const booking = {
       startDate,
       endDate,
