@@ -7,7 +7,7 @@ const { data, error } = await supabase
 .select('*')
 
 if (error) {
-    console.log(error.message);
+    //console.log(error.message);
     throw new Error(error.message);
 }
 return data;
