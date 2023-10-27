@@ -22,7 +22,7 @@ const Guest = styled.div`
 
 
 export default function TodayItem({activity}) {
-  console.log(activity);
+ 
   const {status,guests,numNights} = activity;
   return (
     <StyledTodayItem>
