@@ -1,49 +1,25 @@
-import styled from "styled-components";
+import { MoonLoader } from "react-spinners";
+import TodayItem from "./TodayItem";
+import { useTodayActivity } from "./useTodayActivity";
 
-import Heading from "../../ui/Heading";
-import Row from "../../ui/Row";
+export default function TodayActivity() {
+  const { todayActivity, isLoading } = useTodayActivity();
+  
 
-const StyledToday = styled.div`
-  /* Box */
-  background-color: var(--color-grey-0);
-  border: 1px solid var(--color-grey-100);
-  border-radius: var(--border-radius-md);
-
-  padding: 3.2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2.4rem;
-  grid-column: 1 / span 2;
-  padding-top: 2.4rem;
-`;
-
-const TodayList = styled.ul`
-  overflow: scroll;
-  overflow-x: hidden;
-
-  /* Removing scrollbars for webkit, firefox, and ms, respectively */
-  &::-webkit-scrollbar {
-    width: 0 !important;
-  }
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-`;
-
-const NoActivity = styled.p`
-  text-align: center;
-  font-size: 1.8rem;
-  font-weight: 500;
-  margin-top: 0.8rem;
-`;
-
-function Today() {
   return (
-    <StyledToday>
-      <Row type="horizontal">
-        <Heading as="h2">Today</Heading>
-      </Row>
-    </StyledToday>
+    <div className="bg-gray-50 border-gray-100 rounded-md p-12 flex flex-col gap-4 pt-9">
+      <h3>Activities for the day</h3>
+      {isLoading ? (
+        <MoonLoader />
+      ) : todayActivity.length === 0 ? (
+        <p className="text-center">No activities for the day</p>
+      ) : (
+        <div className="overflow-y-auto overflow-x-hidden">
+          {todayActivity.map((activity) => (
+            <TodayItem key={activity.id} activity={activity} />
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
-
-export default Today;
