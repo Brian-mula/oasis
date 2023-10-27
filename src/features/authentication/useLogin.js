@@ -22,6 +22,6 @@ export function useLogin() {
             toast.error(`Login failed: ${error.message}`);
         }
     })
-    console.log(isLogingIn)
+   
     return {login,isLogingIn}
 }
