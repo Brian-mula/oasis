@@ -7,10 +7,10 @@ export function useSignUp(){
     const queryClient = useQueryClient();
     const navigate = useNavigate();
     const {mutate:signUpUser,isLoading:isSigningUp}=useMutation({
-        mutationFn:({email,password,name})=>signUp({email,password,name}),
+        mutationFn:({email,password,name,nationality,nationalId})=>signUp({email,password,name,nationalId,nationality}),
         onSuccess:()=>{
             
-            toast.success(`Sign Up was successful`);
+            toast.success(`User creation was successful`);
             queryClient.invalidateQueries({active:true})
             navigate("/dashboard");
             
