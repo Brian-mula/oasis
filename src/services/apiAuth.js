@@ -33,7 +33,7 @@ export async function logout() {
   }
 }
 
-export async function signUp({ email, password, name }) {
+export async function signUp({ email, password, name,nationality,nationalId }) {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
@@ -47,8 +47,21 @@ export async function signUp({ email, password, name }) {
   if (error) {
     throw new Error(error.message);
   }
+
+const { data:insertData, error:insertError } = await supabase
+.from('guests')
+.insert([
+  { email, name,nationality,nationalId },
+])
+.select()
+if (insertError) {
+  console.log(insertError.message);
+  throw new Error(insertError.message);
+}
+
+
   console.log(data);
-  return data;
+  return {data,insertData};
 }
 
 export async function updateUser({name,avater,password}){
