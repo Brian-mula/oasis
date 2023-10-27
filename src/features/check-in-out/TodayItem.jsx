@@ -18,3 +18,23 @@ const StyledTodayItem = styled.li`
 const Guest = styled.div`
   font-weight: 500;
 `;
+
+
+
+export default function TodayItem({activity}) {
+  console.log(activity);
+  const {status,guests,numNights} = activity;
+  return (
+    <StyledTodayItem>
+      {status==="unconfirmed" && (
+        <span className="bg-green-600 rounded-full h-3 w-3">Arriving</span>
+      )}
+      {status==="checked-in" && (
+        <span className="bg-blue-600 rounded-full h-3 w-3">Departing</span>
+      )}
+      <Guest>{guests.name}</Guest>
+      <div>{numNights} nights</div>
+
+    </StyledTodayItem>
+  )
+}
