@@ -141,7 +141,7 @@ export default function NewBooking() {
               <select value={guest} onChange={(e)=> setGuest(Number(e.target.value))} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                 {guests.map((guest) => (
                   <option key={guest.id} value={guest.id}>
-                    {guest.fullName}
+                    {guest.name}
                   </option>
                 ))}
               </select>

@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import Spinner from "../../ui/Spinner";
+import Loaded from "../../ui/Loaded";
 import BookingItem from "./BookingItem";
 import { useBookings } from "./useBookings";
 
@@ -10,7 +10,7 @@ const {bookings=[],isloading,error} = useBookings();
 const [searchParams] = useSearchParams();
 
  if(isloading) {
-  return <Spinner/>;
+  return <Loaded/>;
  }
   
   

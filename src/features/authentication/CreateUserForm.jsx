@@ -75,6 +75,37 @@ export default function CreateUserForm() {
             <div className="flex flex-wrap -mx-3 mb-3">
               <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  Nationality
+                </label>
+                <input
+                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                  {...register("nationality",{
+                    required:"nationality is required",
+                  
+                  })}
+                  type="text"
+                />
+                {errors.nationality && <p className="text-red-500 text-xs italic">{errors.nationality.message}</p>}
+              </div>
+              <div className="w-full md:w-1/2 px-3">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                 National Id
+                </label>
+                <input
+                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  {...register("nationalId",{
+                    required:"national Id is required"
+                    
+                  
+                  })}
+                  type="text"
+                />
+                {errors.nationalId && <p className="text-red-500 text-xs italic">{errors.nationalId.message}</p>}
+              </div>
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-3">
+              <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                   Password
                 </label>
                 <input

@@ -1,4 +1,4 @@
-import Spinner from "../../ui/Spinner";
+import Loaded from "../../ui/Loaded";
 import { useSettings } from "./useSettings";
 import { useUpdateSettings } from "./useUpdateSettings";
 
@@ -20,8 +20,7 @@ function UpdateSettingsForm() {
     updateSetting({ [field]: value });
   };
 
-  if (isLoading) return <Spinner />;
-
+  if (isLoading) return <Loaded />;
   return (
     <div className="flex justify-center">
       <form className="w-full max-w-lg mx-6 mt-4">

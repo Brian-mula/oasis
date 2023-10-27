@@ -25,7 +25,7 @@ export async function getBookings() {
 
 const { data: bookings, error } = await supabase
 .from('booking')
-.select('*, cabins(name), guests(fullName,email)')
+.select('*, cabins(name), guests(name,email)')
 if (error) {
   console.error(error)
   throw new Error('Bookings could not get loaded')
@@ -70,7 +70,7 @@ export async function getStaysAfterDate(date) {
   const { data, error } = await supabase
     .from("booking")
     // .select('*')
-    .select("*, guests(fullName)")
+    .select("*, guests(name)")
     .gte("startDate", date)
     .lte("startDate", getToday());
 
@@ -78,15 +78,15 @@ export async function getStaysAfterDate(date) {
     console.error(error);
     throw new Error("Bookings could not get loaded");
   }
-console.log(data)
+
   return data;
 }
 
 // Activity means that there is a check in or a check out today
 export async function getStaysTodayActivity() {
   const { data, error } = await supabase
-    .from("bookings")
-    .select("*, guests(fullName, nationality, countryFlag)")
+    .from("booking")
+    .select("*, guests(name, nationality, countryFlag)")
     .or(
       `and(status.eq.unconfirmed,startDate.eq.${getToday()}),and(status.eq.checked-in,endDate.eq.${getToday()})`
     )
@@ -100,6 +100,7 @@ export async function getStaysTodayActivity() {
     console.error(error);
     throw new Error("Bookings could not get loaded");
   }
+  console.log( data)
   return data;
 }
 
