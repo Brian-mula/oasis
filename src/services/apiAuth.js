@@ -9,7 +9,7 @@ export async function login({ email, password }) {
     console.log(error);
     throw new Error(error.message);
   }
-  console.log(data);
+  
 
   return data;
 }
@@ -55,12 +55,12 @@ const { data:insertData, error:insertError } = await supabase
 ])
 .select()
 if (insertError) {
-  console.log(insertError.message);
+  
   throw new Error(insertError.message);
 }
 
 
-  console.log(data);
+  
   return {data,insertData};
 }
 
