@@ -42,7 +42,7 @@ const Title = styled.h5`
 `;
 
 const Value = styled.p`
-  font-size: 1.4rem;
+  font-size: 1rem;
   
   font-weight: 500;
 `;
