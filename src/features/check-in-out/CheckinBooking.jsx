@@ -106,7 +106,7 @@ export default function CheckinBooking() {
       </div>
       <div className="px-7 py-3 grid grid-cols-3 gap-x-10 gap-y-4">
         <p>
-          .{guests.fullName} + {numGuests - 1} guest
+          .{guests.name} + {numGuests - 1} guest
         </p>
         <p>.{guests.email}</p>
         <p>.National ID: {guests.nationalId}</p>
@@ -143,10 +143,10 @@ export default function CheckinBooking() {
           >
             {
               isTakingBreakfast
-                ? `I Confirm that ${guests.fullName} has paid ${formatCurrency(
+                ? `I Confirm that ${guests.name} has paid ${formatCurrency(
                     totalPrice + breakfastPrice
                   )}`
-                : `Confirm that ${guests.fullName} has paid ${formatCurrency(totalPrice)}`
+                : `I Confirm that ${guests.name} has paid ${formatCurrency(totalPrice)}`
             }
           </Checkbox>
         </div>
